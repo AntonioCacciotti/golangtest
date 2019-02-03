@@ -11,6 +11,7 @@ import (
 func main() {
 	router := gin.Default()
 	router.GET("/v1/:game/:action", GetQuestions)
+	router.GET("/v1/:game/:action/", GetQuestions)
 	router.POST("/v1/:game/userregistration", UserRegistration)
 	router.Run(":8000")
 }
@@ -18,14 +19,6 @@ func main() {
 var users = make(map[string]int)
 
 //UserRegistration save user nickname inside a hashmap
-func UserRegistration(c *gin.Context) {
-	var user model.User
-	c.BindJSON(&user)
-	users[user.Nickname] = 0
-	log.Println(users)
-	c.String(http.StatusOK, "il nickname e' %s", user.Nickname)
-}
-
 func UserRegistration(c *gin.Context) {
 	var user model.User
 	c.BindJSON(&user)
@@ -45,5 +38,6 @@ func GetQuestions(c *gin.Context) {
 
 //GetNextQuestions returns one question and the related options
 func GetNextQuestions(c *gin.Context) {
-
+	nextQuestion := c.Query("noQuestion")
+	log.Println(nextQuestion)
 }

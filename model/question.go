@@ -1,7 +1,9 @@
 package model
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 )
@@ -12,14 +14,25 @@ type Question struct {
 	Question string `json:"question"`
 }
 
+//Questions is a simple data struct
+type Questions struct {
+	Questions []Question `json:"questions"`
+}
+
 //LoadQuestion from a file
 func LoadQuestion() map[int]string {
-	questions, err := os.Open("../resources/questions.json")
+	var questions Questions
+	jsonQuestions, err := os.Open("questions.json")
+	byteValue, _ := ioutil.ReadAll(jsonQuestions)
+	json.Unmarshal(byteValue, &questions)
 	if err != nil {
 		fmt.Println(err)
 	}
 	question2s := make(map[int]string)
 	log.Println(questions)
-	defer questions.Close()
+	for i := 0; i < len(questions.Questions); i++ {
+		fmt.Println("Question : " + questions.Questions[i].Question)
+	}
+	defer jsonQuestions.Close()
 	return question2s
 }
