@@ -1,17 +1,21 @@
 package main
 
 import (
-	"time"
+	"golangtest/model"
+	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/pingTime", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"serverTime": time.Now().UTC(),
-		})
+	router := gin.Default()
+	router.GET("/v1/:game/:action", func(c *gin.Context) {
+		game := c.Param("game")
+		action := c.Param("action")
+		c.String(http.StatusOK, "ciao %s %s", game, action)
+		log.Println(action)
+		model.LoadQuestion()
 	})
-	r.Run(":8080")
+	router.Run(":8000")
 }
