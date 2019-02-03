@@ -11,7 +11,7 @@ import (
 func main() {
 	router := gin.Default()
 	router.GET("/v1/:game/:action", GetQuestions)
-	router.POST("v1/:game/registeruser")
+	router.POST("/v1/:game/userregistration", UserRegistration)
 	router.Run(":8000")
 }
 
@@ -22,4 +22,15 @@ func GetQuestions(c *gin.Context) {
 	c.String(http.StatusOK, "ciao %s %s", game, action)
 	log.Println(action)
 	model.LoadQuestion()
+}
+
+var users = make(map[string]int)
+
+//UserRegistration save user nickname inside a hashmap
+func UserRegistration(c *gin.Context) {
+	var user model.User
+	c.BindJSON(&user)
+	users[user.Nickname] = 0
+	log.Println(users)
+	c.String(http.StatusOK, "il nickname e' %s", user.Nickname)
 }
