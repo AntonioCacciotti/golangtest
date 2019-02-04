@@ -44,12 +44,15 @@ func NewAnswer(ID int, questionID int, text string) Answer {
 }
 
 //VerifyUserAnswer builds new obj for response
-func VerifyUserAnswer(questionID int, answerID int, userAnswer bool) bool {
+func VerifyUserAnswer(questionID int, answerID int, username string, userAnswer bool) bool {
 	log.Println("verify answer...")
 	answer := answersMap[questionID]
 	for _, v := range answer.Answers {
 		if v.ID == answerID {
-			return v.Correct == userAnswer
+			if v.Correct == userAnswer {
+				IncreamentUserScore(username)
+				return true
+			}
 		}
 	}
 	return false

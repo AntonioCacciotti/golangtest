@@ -14,21 +14,18 @@ import (
 func StartServer() {
 	router := gin.Default()
 	router.GET("/v1/:game/questions", GetQuestions)
-	//router.GET("/v1/:game/:action", GetQuestions)
 	router.GET("/v1/:game/answers", GetAnswers)
+	router.GET("/v1/:game/end", ProcessAction)
 	router.POST("/v1/:game/userregistration", UserRegistration)
 	router.POST("/v1/:game/checkanswer", CheckAnswer)
 	router.Run(":8000")
 }
 
-var users = make(map[string]int)
-
 //UserRegistration save user nickname inside a hashmap
 func UserRegistration(c *gin.Context) {
 	var user model.User
 	c.BindJSON(&user)
-	users[user.Nickname] = 0
-	log.Println(users)
+	model.AddUserNickname(user.Nickname)
 	c.String(http.StatusOK, "il nickname e' %s", user.Nickname)
 }
 
@@ -70,8 +67,20 @@ func GetAnswers(c *gin.Context) {
 //CheckAnswer call function to verify the user answer
 func CheckAnswer(c *gin.Context) {
 	var answer model.Answer
+	var nickname = c.Query("nickname")
 	c.BindJSON(&answer)
 	log.Println(answer)
-	resp := model.VerifyUserAnswer(answer.QuestionID, answer.ID, answer.Correct)
+	resp := model.VerifyUserAnswer(answer.QuestionID, answer.ID, nickname, answer.Correct)
 	c.JSON(http.StatusOK, resp)
+}
+
+//ProcessAction returns one question and the related options
+func ProcessAction(c *gin.Context) {
+	action := c.Query("action")
+	if action == "result" {
+		log.Println("result")
+	}
+	if action == "scores" {
+		log.Println("scores")
+	}
 }
