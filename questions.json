@@ -1,8 +1,8 @@
 {
     "questions": [
       {
-        "id" : "1",
-        "question" : "chi sei?"
+        "ID" : 1,
+        "text" : "chi sei?"
       }]
 }
     

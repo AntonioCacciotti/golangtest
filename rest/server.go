@@ -1,17 +1,20 @@
-package main
+package rest
 
 import (
 	"golangtest/model"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+//StartServer starts the server
+func StartServer() {
 	router := gin.Default()
-	router.GET("/v1/:game/:action", GetQuestions)
-	router.GET("/v1/:game/:action/", GetQuestions)
+	router.GET("/v1/:game/questions", GetQuestions)
+	//router.GET("/v1/:game/:action", GetQuestions)
+	router.GET("/v1/:game/answers", GetAnswers)
 	router.POST("/v1/:game/userregistration", UserRegistration)
 	router.Run(":8000")
 }
@@ -33,11 +36,22 @@ func GetQuestions(c *gin.Context) {
 	action := c.Param("action")
 	c.String(http.StatusOK, "ciao %s %s", game, action)
 	log.Println(action)
-	model.LoadQuestion()
 }
 
 //GetNextQuestions returns one question and the related options
 func GetNextQuestions(c *gin.Context) {
-	nextQuestion := c.Query("noQuestion")
+	nextQuestion := c.Query("next")
 	log.Println(nextQuestion)
+}
+
+//GetAnswers returns all the question' answers
+func GetAnswers(c *gin.Context) {
+	questionID := c.Query("questionID")
+	log.Println("questionId: ", questionID)
+	qID, err := strconv.Atoi(questionID)
+	if err != nil {
+		log.Fatalln("convertsion string to int FATAL ERROR")
+	}
+	answers := model.GetAnswers(qID)
+	c.JSON(http.StatusOK, answers)
 }
