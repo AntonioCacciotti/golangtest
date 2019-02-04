@@ -16,22 +16,59 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+	"strconv"
+	"strings"
 
 	"github.com/spf13/cobra"
+	resty "gopkg.in/resty.v1"
 )
+
+type checkAnswer struct {
+	qID int    `json:"questionId" binding:"required"`
+	aID int    `json:"answerId" binding:"required"`
+	nID string `json:"nicknameID" binding:"required"`
+}
 
 // answerCmd represents the answer command
 var answerCmd = &cobra.Command{
 	Use:   "answer",
 	Short: "type your answer",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 3 {
+		//copy(s, args)
+		j := strings.Join(args, ",")
+		//fmt.Println("string join", j)
+		s := strings.Split(j, ",")
+		ip, port := s[0], s[1]
+		fmt.Println(ip, port)
+		fmt.Println("copy args to new slice:", s, "len:", len(s))
+		if len(s) < 3 {
 			return fmt.Errorf("Invalir argument! args format is questionID,answerID,nickname")
 		}
+
+		questionID := convertStringToInt(s[0])
+		answerID := convertStringToInt(s[1])
+		nickanme := s[2]
+		resp, err := resty.R().
+			SetHeader("Content-Type", "application/json").
+			SetBody(checkAnswer{questionID, answerID, nickanme}).
+			Put("http://localhost:8000/v1/quiz/checkanswer")
+
+		fmt.Printf("\nError: %v", err)
+		fmt.Printf("\nResponse Status Code: %v", resp.StatusCode())
+		fmt.Printf("\nResponse Body: %v", resp)
 		return nil
 	},
 }
 
+func convertStringToInt(s string) int {
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		//Fatalln print and call os.Exit
+		log.Fatalln("error converting from string to int", err)
+	}
+	return i
+}
 func init() {
 	rootCmd.AddCommand(answerCmd)
 

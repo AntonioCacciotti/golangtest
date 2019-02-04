@@ -44,12 +44,12 @@ func NewAnswer(ID int, questionID int, text string) Answer {
 }
 
 //VerifyUserAnswer builds new obj for response
-func VerifyUserAnswer(questionID int, answerID int, username string, userAnswer bool) bool {
+func VerifyUserAnswer(questionID int, answerID int, username string) bool {
 	log.Println("verify answer...")
 	answer := answersMap[questionID]
 	for _, v := range answer.Answers {
 		if v.ID == answerID {
-			if v.Correct == userAnswer {
+			if v.Correct == true {
 				IncreamentUserScore(username)
 				return true
 			}
@@ -63,6 +63,18 @@ var questions Questions
 //GetQuestions return all the questions present in the questions.json file
 func GetQuestions() Questions {
 	return questions
+}
+
+//GetNextQuestionsWithAnswers return all the questions present in the questions.json file
+func GetNextQuestionsWithAnswers(questionID int) (Question, Answers) {
+	var question Question
+	var answers Answers
+	for _, v := range questions.Questions {
+		if v.ID == questionID {
+			return v, GetAnswers(v.ID)
+		}
+	}
+	return question, answers
 }
 
 //LoadQuestions from a file

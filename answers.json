@@ -4,6 +4,24 @@
         "id" : 1,
         "questionID" : 1,
         "text": "risposta 1",
+        "correct":false
+      },
+      {
+        "id" : 2,
+        "questionID" : 1,
+        "text": "risposta 1",
+        "correct":false
+      },
+      {
+        "id" : 3,
+        "questionID" : 1,
+        "text": "risposta 1",
+        "correct":true
+      },
+      {
+        "id" : 1,
+        "questionID" : 2,
+        "text": "risposta 1",
         "correct":true
       }]
 }

@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"encoding/json"
 	"golangtest/model"
 	"log"
 	"net/http"
@@ -17,7 +18,7 @@ func StartServer() {
 	router.GET("/v1/:game/answers", GetAnswers)
 	router.GET("/v1/:game/end", ProcessAction)
 	router.POST("/v1/:game/userregistration", UserRegistration)
-	router.POST("/v1/:game/checkanswer", CheckAnswer)
+	router.PUT("/v1/:game/checkanswer", CheckAnswer)
 	router.Run(":8000")
 }
 
@@ -32,18 +33,31 @@ func UserRegistration(c *gin.Context) {
 //GetQuestions reads all questions from a file
 func GetQuestions(c *gin.Context) {
 	game := c.Param("game")
+	nextQuestion := c.Query("next")
 	if strings.ToLower(game) != "quiz" {
 		c.JSON(http.StatusNotAcceptable, gin.H{"message": "wrong path!"})
 	}
-	action := c.Param("action")
-	totalQ := len(model.GetQuestions().Questions)
-	c.JSON(http.StatusOK, gin.H{"message": "try to answer to answer " + strconv.Itoa(totalQ) + " questions to get a beer!"})
-	log.Println(action)
+	if nextQuestion == "" {
+		totalQ := len(model.GetQuestions().Questions)
+		c.JSON(http.StatusOK, gin.H{"message": "try to answer to answer " + strconv.Itoa(totalQ) + " questions to get a beer!"})
+	} else {
+		GetNextQuestions(c, nextQuestion)
+	}
 }
 
 //GetNextQuestions returns one question and the related options
-func GetNextQuestions(c *gin.Context) {
-	nextQuestion := c.Query("next")
+func GetNextQuestions(c *gin.Context, next string) {
+	nextQuestion, err := strconv.Atoi(next)
+	if err != nil {
+		log.Fatalln("convertsion string to int FATAL ERROR")
+	}
+	question, answers := model.GetNextQuestionsWithAnswers(nextQuestion)
+	qToJSON, err := json.Marshal(question)
+	aToJSON, err := json.Marshal(answers)
+	q := string(qToJSON)
+	a := string(aToJSON)
+	c.JSON(http.StatusOK, gin.H{"question": q, "answers": a})
+
 	log.Println(nextQuestion)
 }
 
@@ -64,17 +78,22 @@ func GetAnswers(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
+type checkAnswer struct {
+	qID int    `json:"questionId" binding:"required"`
+	aID int    `json:"answerId" binding:"required"`
+	nID string `json:"nicknameID" binding:"required"`
+}
+
 //CheckAnswer call function to verify the user answer
 func CheckAnswer(c *gin.Context) {
-	var answer model.Answer
-	var nickname = c.Query("nickname")
-	c.BindJSON(&answer)
-	log.Println(answer)
-	resp := model.VerifyUserAnswer(answer.QuestionID, answer.ID, nickname, answer.Correct)
+	var checkAnswer checkAnswer
+	c.BindJSON(&checkAnswer)
+	log.Println(checkAnswer)
+	resp := model.VerifyUserAnswer(checkAnswer.qID, checkAnswer.aID, checkAnswer.nID)
 	c.JSON(http.StatusOK, resp)
 }
 
-//ProcessAction returns one question and the related options
+//ProcessAction returns one question and the related options TODO
 func ProcessAction(c *gin.Context) {
 	action := c.Query("action")
 	if action == "result" {
