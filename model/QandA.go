@@ -34,7 +34,7 @@ type Answer struct {
 	ID         int    `json:"id"`
 	QuestionID int    `json:"questionID"`
 	Text       string `json:"text"`
-	Correct    bool   `json:"Correct"`
+	Correct    bool   `json:"correct"`
 }
 
 var questions []Questions
@@ -47,6 +47,23 @@ func getQuestion() []Questions {
 func GetAnswers(questionID int) Answers {
 	log.Println("Loading questionID:", questionID, " size map:", len(answersMap))
 	return answersMap[questionID]
+}
+
+//NewAnswer builds new obj for response
+func NewAnswer(ID int, questionID int, text string) Answer {
+	return Answer{ID, questionID, text, false}
+}
+
+//VerifyUserAnswer builds new obj for response
+func VerifyUserAnswer(questionID int, answerID int, userAnswer bool) bool {
+	log.Println("verify answer...")
+	answer := answersMap[questionID]
+	for _, v := range answer.Answers {
+		if v.ID == answerID {
+			return v.Correct == userAnswer
+		}
+	}
+	return false
 }
 
 //LoadQuestions from a file

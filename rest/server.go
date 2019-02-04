@@ -16,6 +16,7 @@ func StartServer() {
 	//router.GET("/v1/:game/:action", GetQuestions)
 	router.GET("/v1/:game/answers", GetAnswers)
 	router.POST("/v1/:game/userregistration", UserRegistration)
+	router.POST("/v1/:game/checkanswer", CheckAnswer)
 	router.Run(":8000")
 }
 
@@ -53,5 +54,19 @@ func GetAnswers(c *gin.Context) {
 		log.Fatalln("convertsion string to int FATAL ERROR")
 	}
 	answers := model.GetAnswers(qID)
-	c.JSON(http.StatusOK, answers)
+	resp := []model.Answer{}
+	for _, v := range answers.Answers {
+		newAnswer := model.NewAnswer(v.ID, v.QuestionID, v.Text)
+		resp = append(resp, newAnswer)
+	}
+	c.JSON(http.StatusOK, resp)
+}
+
+//CheckAnswer call function to verify the user answer
+func CheckAnswer(c *gin.Context) {
+	var answer model.Answer
+	c.BindJSON(&answer)
+	log.Println(answer)
+	resp := model.VerifyUserAnswer(answer.QuestionID, answer.ID, answer.Correct)
+	c.JSON(http.StatusOK, resp)
 }
