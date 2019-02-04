@@ -19,11 +19,6 @@ type Questions struct {
 	Questions []Question `json:"questions"`
 }
 
-//Iterate iterates over a slice
-func (m *Questions) Iterate() []Questions {
-	return questions
-}
-
 //Answers array
 type Answers struct {
 	Answers []Answer `json:"answers"`
@@ -35,12 +30,6 @@ type Answer struct {
 	QuestionID int    `json:"questionID"`
 	Text       string `json:"text"`
 	Correct    bool   `json:"correct"`
-}
-
-var questions []Questions
-
-func getQuestion() []Questions {
-	return questions
 }
 
 //GetAnswers get answer list
@@ -66,9 +55,16 @@ func VerifyUserAnswer(questionID int, answerID int, userAnswer bool) bool {
 	return false
 }
 
+var questions Questions
+
+//GetQuestions return all the questions present in the questions.json file
+func GetQuestions() Questions {
+	return questions
+}
+
 //LoadQuestions from a file
 func LoadQuestions() []Question {
-	var questions Questions
+
 	jsonQuestions, err := os.Open("questions.json")
 	byteValue, _ := ioutil.ReadAll(jsonQuestions)
 	json.Unmarshal(byteValue, &questions)

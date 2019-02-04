@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,8 +35,12 @@ func UserRegistration(c *gin.Context) {
 //GetQuestions reads all questions from a file
 func GetQuestions(c *gin.Context) {
 	game := c.Param("game")
+	if strings.ToLower(game) != "quiz" {
+		c.JSON(http.StatusNotAcceptable, gin.H{"message": "wrong path!"})
+	}
 	action := c.Param("action")
-	c.String(http.StatusOK, "ciao %s %s", game, action)
+	totalQ := len(model.GetQuestions().Questions)
+	c.JSON(http.StatusOK, gin.H{"message": "try to answer to answer " + strconv.Itoa(totalQ) + " questions to get a beer!"})
 	log.Println(action)
 }
 
