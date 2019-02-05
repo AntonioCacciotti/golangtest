@@ -3,26 +3,26 @@
       {
         "id" : 1,
         "questionID" : 1,
-        "text": "answer test 1",
+        "text": "Awash",
         "correct":false
       },
       {
         "id" : 2,
         "questionID" : 1,
-        "text": "answer test 2",
-        "correct":false
+        "text": "Addis Ababa",
+        "correct":true
       },
       {
         "id" : 3,
         "questionID" : 1,
-        "text": "answer test 3",
-        "correct":true
+        "text": "Mekelle",
+        "correct":false
       },
       {
         "id" : 1,
         "questionID" : 2,
-        "text": "answer test 3",
-        "correct":true
+        "text": "test",
+        "correct":false
       }]
 }
     
