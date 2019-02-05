@@ -2,14 +2,14 @@
     "questions": [
       {
         "ID" : 1,
-        "text" : "what s your name 1?"
+        "text" : "Which is ethiopia's capital city?"
       },
       {
         "ID" : 2,
-        "text" : "what s your name 2?"
+        "text" : "Which is the most important component of any Ethiopian meal?"
       }, {
         "ID" : 3,
-        "text" : "what s your name 3?"
+        "text" : "What countries does the East African Rift Valley run through?"
       }]
 }
     
