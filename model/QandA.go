@@ -71,6 +71,8 @@ func GetNextQuestionsWithAnswers(questionID int) (Question, Answers) {
 	var answers Answers
 	for _, v := range questions.Questions {
 		if v.ID == questionID {
+			fmt.Println("id from qiestions :", v.ID, "id from request:", questionID)
+			fmt.Println("answers from:", v.ID, "-", GetAnswers(v.ID))
 			return v, GetAnswers(v.ID)
 		}
 	}
@@ -108,7 +110,9 @@ func LoadAnswers(questionID int) map[int]Answers {
 	}
 	log.Println(answers)
 	for _, v := range answers.Answers {
-		if v.ID == questionID {
+		if v.QuestionID == questionID {
+			//the bug is on answersMap I have to use pointers 
+			log.Println("checking bug QuestionId:", questionID, "v.ID", v., "Loaded!")
 			log.Println("QuestionId:", questionID, "Answer : ", v.Text, "Loaded!")
 			answersMap[questionID] = answers
 			log.Println("Answer added in map : ", answersMap)
