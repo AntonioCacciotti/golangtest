@@ -2,6 +2,7 @@ package rest
 
 import (
 	"encoding/json"
+	"fmt"
 	"golangtest/model"
 	"log"
 	"net/http"
@@ -97,8 +98,12 @@ func doCheckAnswer(c *gin.Context) {
 //ProcessAction returns one question and the related options TODO
 func ProcessAction(c *gin.Context) {
 	action := c.Query("action")
+	nickname := c.Query("nickname")
+	var result float64
 	if action == "result" {
-		log.Println("result")
+		result = model.GetScore(nickname)
+		resp := fmt.Sprintf("%f", result)
+		c.JSON(http.StatusOK, gin.H{"message": "Total correct answers:" + resp})
 	}
 	if action == "ranking" {
 		log.Println("scores")

@@ -15,7 +15,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"strconv"
@@ -50,11 +49,11 @@ var answerCmd = &cobra.Command{
 		nickanme := s[2]
 		answer := checkAnswer{qID, answerID, nickanme}
 		log.Println("answer q s n :", qID, answerID, nickanme)
-		data, err := json.Marshal(answer)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf("Json print %s\n", data)
+		//data, err := json.Marshal(answer)
+		//if err != nil {
+		//	log.Fatal(err)
+		//}
+		//fmt.Printf("Json print %s\n", data)
 		resp, err := resty.R().
 			SetHeader("Content-Type", "application/json").
 			SetBody(answer).

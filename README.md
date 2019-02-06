@@ -20,3 +20,10 @@ TODO:
  * golangtest-cobra questions
  * golangtest-cobra answer 1,1,antonio (questionID,answerId,nickname)
 
+
+Example sequence of commands:
+ * golangtest-cobra addNickname antonio
+ * golangtest-cobra questions
+ * golangtest-cobra questions 1
+ * golangtest-cobra answer 1,2,antonio
+ *golangtest-cobra actions result,antonio

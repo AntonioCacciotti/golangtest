@@ -28,9 +28,13 @@ var actionsCmd = &cobra.Command{
 	Short: "possible actions are result or score",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		action := strings.Join(args, "")
+		joinArgs := strings.Join(args, "")
+		s := strings.Split(joinArgs, ",")
+		fmt.Printf("\nstring slip : %v", s)
+		action := s[0]
+		nickname := s[1]
 		if action == "result" {
-			resp, err := resty.R().Get("http://localhost:8000/v1/quiz/end?action=result")
+			resp, err := resty.R().Get("http://localhost:8000/v1/quiz/end?action=result&nickname=" + nickname)
 			fmt.Printf("\nResponse Status Code: %v", err)
 			fmt.Printf("\nResponse Status Code: %v", resp.StatusCode())
 			fmt.Printf("\nResponse Body: %v", resp)
