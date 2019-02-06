@@ -106,6 +106,6 @@ func ProcessAction(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "Total correct answers:" + resp})
 	}
 	if action == "ranking" {
-		log.Println("scores")
+		rankings := model.GetRanking()
 	}
 }

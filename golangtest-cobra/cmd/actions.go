@@ -39,8 +39,8 @@ var actionsCmd = &cobra.Command{
 			fmt.Printf("\nResponse Status Code: %v", resp.StatusCode())
 			fmt.Printf("\nResponse Body: %v", resp)
 		}
-		if action == "scores" {
-			resp, err := resty.R().Get("http://localhost:8000/v1/quiz/end?action=score")
+		if action == "ranking" {
+			resp, err := resty.R().Get("http://localhost:8000/v1/quiz/end?action=ranking")
 			fmt.Printf("\nResponse Status Code: %v", err)
 			fmt.Printf("\nResponse Status Code: %v", resp.StatusCode())
 			fmt.Printf("\nResponse Body: %v", resp)

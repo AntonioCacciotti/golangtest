@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"sort"
 )
 
 //User is a simple data struct
@@ -36,6 +37,25 @@ func GetScore(nickname string) float64 {
 	result = (score / q) * 100
 	fmt.Println("score for nickname", nickname, " is:", toFixed(result, 0))
 	return toFixed(result, 0)
+}
+
+//GetRanking get ranking of users
+func GetRanking() []int {
+	n := map[int][]string{}
+	var a []int
+	for k, v := range users {
+		n[v] = append(n[v], k)
+	}
+	for k := range n {
+		a = append(a, k)
+	}
+	sort.Sort(sort.Reverse(sort.IntSlice(a)))
+	for _, k := range a {
+		for _, s := range n[k] {
+			fmt.Printf("%s, %d\n", s, k)
+		}
+	}
+	return a
 }
 func toFixed(num float64, precision int) float64 {
 	output := math.Pow(10, float64(precision))

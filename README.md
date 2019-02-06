@@ -28,4 +28,4 @@ Example sequence of commands:
  * golangtest-cobra questions
  * golangtest-cobra questions 1
  * golangtest-cobra answer 1,2,antonio
- *golangtest-cobra actions result,antonio
+ * golangtest-cobra actions result,antonio
