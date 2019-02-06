@@ -32,8 +32,9 @@ var actionsCmd = &cobra.Command{
 		s := strings.Split(joinArgs, ",")
 		fmt.Printf("\nstring slip : %v", s)
 		action := s[0]
-		nickname := s[1]
+
 		if action == "result" {
+			nickname := s[1]
 			resp, err := resty.R().Get("http://localhost:8000/v1/quiz/end?action=result&nickname=" + nickname)
 			fmt.Printf("\nResponse Status Code: %v", err)
 			fmt.Printf("\nResponse Status Code: %v", resp.StatusCode())

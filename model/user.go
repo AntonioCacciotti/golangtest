@@ -40,7 +40,7 @@ func GetScore(nickname string) float64 {
 }
 
 //GetRanking get ranking of users
-func GetRanking() []int {
+func GetRanking() map[int][]string {
 	n := map[int][]string{}
 	var a []int
 	for k, v := range users {
@@ -55,7 +55,7 @@ func GetRanking() []int {
 			fmt.Printf("%s, %d\n", s, k)
 		}
 	}
-	return a
+	return n
 }
 func toFixed(num float64, precision int) float64 {
 	output := math.Pow(10, float64(precision))

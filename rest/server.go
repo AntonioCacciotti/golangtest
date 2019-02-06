@@ -107,5 +107,6 @@ func ProcessAction(c *gin.Context) {
 	}
 	if action == "ranking" {
 		rankings := model.GetRanking()
+		c.JSON(http.StatusOK, rankings)
 	}
 }
