@@ -1,6 +1,9 @@
 # golangtest
 ## current branch is features/cobra
+<<<<<<< HEAD
 ## beta version
+=======
+>>>>>>> 09d6b60d44ffa5f8eb30d09e9057517dc659a67a
 
 project structure :
   * golangtest/golangtest-cobra contains cobra library with https://github.com/go-resty/resty to call the server
@@ -19,7 +22,6 @@ TODO:
  * golangtest-cobra golangtest-cobra questions
  * golangtest-cobra questions
  * golangtest-cobra answer 1,1,antonio (questionID,answerId,nickname)
-
 
 Example sequence of commands:
  * golangtest-cobra addNickname antonio
