@@ -10,9 +10,10 @@ project structure :
   
 TODO:
  * <del>debug http://localhost:8000/v1/quiz/questions?next=1</del>
- * debug cobra command golangtest-cobra questions
- * debug golangtest-cobra answer
- * user story 3 and 4
+ * <del>debug cobra command golangtest-cobra questions</del>
+ * <del>debug golangtest-cobra answer</del>
+ * <del>user story 3 and 4</del>
+ * more test with different users
  * a little refactoring
  
  Cobra command sequence:
