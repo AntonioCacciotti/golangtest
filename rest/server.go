@@ -18,7 +18,7 @@ func StartServer() {
 	router.GET("/v1/:game/answers", GetAnswers)
 	router.GET("/v1/:game/end", ProcessAction)
 	router.POST("/v1/:game/userregistration", UserRegistration)
-	router.PUT("/v1/:game/checkanswer", CheckAnswer)
+	router.PUT("/v1/:game/checkanswer", doCheckAnswer)
 	router.Run(":8000")
 }
 
@@ -78,18 +78,19 @@ func GetAnswers(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
-type checkAnswer struct {
-	qID int    `json:"questionId" binding:"required"`
-	aID int    `json:"answerId" binding:"required"`
-	nID string `json:"nicknameID" binding:"required"`
+//CheckAnswer obj
+type CheckAnswer struct {
+	QID int    `json:"questionID"`
+	AID int    `json:"answerID"`
+	NID string `json:"nicknameID"`
 }
 
 //CheckAnswer call function to verify the user answer
-func CheckAnswer(c *gin.Context) {
-	var checkAnswer checkAnswer
+func doCheckAnswer(c *gin.Context) {
+	var checkAnswer CheckAnswer
 	c.BindJSON(&checkAnswer)
-	log.Println(checkAnswer)
-	resp := model.VerifyUserAnswer(checkAnswer.qID, checkAnswer.aID, checkAnswer.nID)
+	log.Println("json request body checkanswer:", checkAnswer)
+	resp := model.VerifyUserAnswer(checkAnswer.QID, checkAnswer.AID, checkAnswer.NID)
 	c.JSON(http.StatusOK, resp)
 }
 
@@ -99,7 +100,7 @@ func ProcessAction(c *gin.Context) {
 	if action == "result" {
 		log.Println("result")
 	}
-	if action == "scores" {
+	if action == "ranking" {
 		log.Println("scores")
 	}
 }

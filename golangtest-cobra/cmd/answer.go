@@ -15,6 +15,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"strconv"
@@ -25,9 +26,9 @@ import (
 )
 
 type checkAnswer struct {
-	qID int    `json:"questionId" binding:"required"`
-	aID int    `json:"answerId" binding:"required"`
-	nID string `json:"nicknameID" binding:"required"`
+	QID int    `json:"questionID""`
+	AID int    `json:"answerID"`
+	NID string `json:"nicknameID"`
 }
 
 // answerCmd represents the answer command
@@ -39,19 +40,24 @@ var answerCmd = &cobra.Command{
 		j := strings.Join(args, ",")
 		//fmt.Println("string join", j)
 		s := strings.Split(j, ",")
-		ip, port := s[0], s[1]
-		fmt.Println(ip, port)
 		fmt.Println("copy args to new slice:", s, "len:", len(s))
 		if len(s) < 3 {
 			return fmt.Errorf("Invalir argument! args format is questionID,answerID,nickname")
 		}
 
-		questionID := convertStringToInt(s[0])
+		qID := convertStringToInt(s[0])
 		answerID := convertStringToInt(s[1])
 		nickanme := s[2]
+		answer := checkAnswer{qID, answerID, nickanme}
+		log.Println("answer q s n :", qID, answerID, nickanme)
+		data, err := json.Marshal(answer)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Json print %s\n", data)
 		resp, err := resty.R().
 			SetHeader("Content-Type", "application/json").
-			SetBody(checkAnswer{questionID, answerID, nickanme}).
+			SetBody(answer).
 			Put("http://localhost:8000/v1/quiz/checkanswer")
 
 		fmt.Printf("\nError: %v", err)

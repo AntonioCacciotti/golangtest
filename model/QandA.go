@@ -45,9 +45,12 @@ func NewAnswer(ID int, questionID int, text string) Answer {
 
 //VerifyUserAnswer builds new obj for response
 func VerifyUserAnswer(questionID int, answerID int, username string) bool {
-	log.Println("verify answer...")
+	log.Println("verify answer... questionId", questionID)
+	log.Println("verify answersMap:", answersMap)
 	answer := answersMap[questionID]
+	log.Println("verify answer:", answer)
 	for _, v := range answer {
+		log.Println("verify answerID:", v.ID, "answer input:", answerID)
 		if v.ID == answerID {
 			if v.Correct == true {
 				IncreamentUserScore(username)

@@ -26,10 +26,17 @@ var questionsCmd = &cobra.Command{
 	Use:   "questions",
 	Short: "Are u ready to play our quiz?",
 	Run: func(cmd *cobra.Command, args []string) {
-		resp, err := resty.R().Get("http://localhost:8000/v1/quiz/questions")
-		fmt.Printf("\nError: %v", err)
-		fmt.Printf("\nResponse Status Code: %v", resp.StatusCode())
-		fmt.Printf("\nResponse Body: %v", resp)
+		fmt.Printf("\nargs: %v", args)
+		if len(args) == 0 {
+			resp, err := resty.R().Get("http://localhost:8000/v1/quiz/questions")
+			fmt.Printf("\nError: %v", err)
+			fmt.Printf("\nResponse Status Code: %v", resp.StatusCode())
+			fmt.Printf("\nResponse Body: %v", resp)
+		} else {
+			resp, err := resty.R().Get("http://localhost:8000/v1/quiz/questions?next=" + args[0])
+			fmt.Printf("\nResponse Body: %v", resp)
+			fmt.Printf("\nError: %v", err)
+		}
 	},
 }
 

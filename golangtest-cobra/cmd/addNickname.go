@@ -37,7 +37,7 @@ to quickly create a Cobra application.`,
 		var buffer bytes.Buffer
 		buffer.WriteString(`{"nickname":`)
 		buffer.WriteString(`"` + strings.Join(args, "") + `",`)
-		buffer.WriteString(`"score":1}`)
+		buffer.WriteString(`"score":0}`)
 		fmt.Println("msg:", buffer.String())
 		resp, err := resty.R().
 			SetHeader("Content-Type", "application/json").
