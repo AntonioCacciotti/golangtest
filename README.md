@@ -1,9 +1,7 @@
 # golangtest
 ## current branch is features/cobra
-<<<<<<< HEAD
 ## beta version
 =======
->>>>>>> 09d6b60d44ffa5f8eb30d09e9057517dc659a67a
 
 project structure :
   * golangtest/golangtest-cobra contains cobra library with https://github.com/go-resty/resty to call the server
