@@ -33,7 +33,7 @@ type Answer struct {
 }
 
 //GetAnswers get answer list
-func GetAnswers(questionID int) Answers {
+func GetAnswers(questionID int) []Answer {
 	log.Println("Loading questionID:", questionID, " size map:", len(answersMap))
 	return answersMap[questionID]
 }
@@ -47,7 +47,7 @@ func NewAnswer(ID int, questionID int, text string) Answer {
 func VerifyUserAnswer(questionID int, answerID int, username string) bool {
 	log.Println("verify answer...")
 	answer := answersMap[questionID]
-	for _, v := range answer.Answers {
+	for _, v := range answer {
 		if v.ID == answerID {
 			if v.Correct == true {
 				IncreamentUserScore(username)
@@ -66,9 +66,9 @@ func GetQuestions() Questions {
 }
 
 //GetNextQuestionsWithAnswers return all the questions present in the questions.json file
-func GetNextQuestionsWithAnswers(questionID int) (Question, Answers) {
+func GetNextQuestionsWithAnswers(questionID int) (Question, []Answer) {
 	var question Question
-	var answers Answers
+	var answers []Answer
 	for _, v := range questions.Questions {
 		if v.ID == questionID {
 			fmt.Println("id from qiestions :", v.ID, "id from request:", questionID)
@@ -97,10 +97,10 @@ func LoadQuestions() []Question {
 	return questions.Questions
 }
 
-var answersMap = make(map[int]Answers)
+var answersMap = make(map[int][]Answer)
 
 //LoadAnswers from a file
-func LoadAnswers(questionID int) map[int]Answers {
+func LoadAnswers(questionID int) {
 	var answers Answers
 	jsonAnswers, err := os.Open("answers.json")
 	byteValue, _ := ioutil.ReadAll(jsonAnswers)
@@ -111,13 +111,13 @@ func LoadAnswers(questionID int) map[int]Answers {
 	log.Println(answers)
 	for _, v := range answers.Answers {
 		if v.QuestionID == questionID {
-			//the bug is on answersMap I have to use pointers 
-			log.Println("checking bug QuestionId:", questionID, "v.ID", v., "Loaded!")
+			//the bug is on answersMap I have to use pointers
+			log.Println("checking bug QuestionId:", questionID, "v.ID", v.Text, "Loaded!")
 			log.Println("QuestionId:", questionID, "Answer : ", v.Text, "Loaded!")
-			answersMap[questionID] = answers
+			answersMap[questionID] = append(answersMap[questionID], v)
 			log.Println("Answer added in map : ", answersMap)
 		}
 	}
 	defer jsonAnswers.Close()
-	return answersMap
+
 }

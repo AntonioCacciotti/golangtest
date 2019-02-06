@@ -71,7 +71,7 @@ func GetAnswers(c *gin.Context) {
 	}
 	answers := model.GetAnswers(qID)
 	resp := []model.Answer{}
-	for _, v := range answers.Answers {
+	for _, v := range answers {
 		newAnswer := model.NewAnswer(v.ID, v.QuestionID, v.Text)
 		resp = append(resp, newAnswer)
 	}
