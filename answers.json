@@ -21,8 +21,40 @@
       {
         "id" : 1,
         "questionID" : 2,
-        "text": "answers question two",
+        "text": "Kebab",
         "correct":false
-      }]
+      },
+      {
+        "id" : 2,
+        "questionID" : 2,
+        "text": "Injera",
+        "correct":true
+      },
+      {
+        "id" : 3,
+        "questionID" : 2,
+        "text": "Couscous",
+        "correct":false
+      },
+      {
+        "id" : 1,
+        "questionID" : 3,
+        "text": "Colombia",
+        "correct":false
+      },
+      {
+        "id" : 2,
+        "questionID" : 3,
+        "text": "Marocco",
+        "correct":false
+      },
+      {
+        "id" : 3,
+        "questionID" : 3,
+        "text": "Kenya",
+        "correct":true
+      }
+
+    ]
 }
     

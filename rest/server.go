@@ -40,7 +40,7 @@ func GetQuestions(c *gin.Context) {
 	}
 	if nextQuestion == "" {
 		totalQ := len(model.GetQuestions().Questions)
-		c.JSON(http.StatusOK, gin.H{"message": "try to answer to answer " + strconv.Itoa(totalQ) + " questions to get a beer!"})
+		c.JSON(http.StatusOK, gin.H{"message": "try to answer " + strconv.Itoa(totalQ) + " questions to get a beer!"})
 	} else {
 		GetNextQuestions(c, nextQuestion)
 	}

@@ -3,6 +3,8 @@
 ## beta version
 =======
 
+go run .\launcher\main.go // run the server
+
 project structure :
   * golangtest/golangtest-cobra contains cobra library with https://github.com/go-resty/resty to call the server
   * launcher starts the server built with gin and load questions and answer from a file
@@ -27,5 +29,5 @@ Example sequence of commands:
  * golangtest-cobra questions
  * golangtest-cobra questions 1
  * golangtest-cobra answer 1,2,antonio
- * golangtest-cobra actions result,antonio
- * golangtest-cobra actions ranking
+ * golangtest-cobra actions result,flavia {"message":"Total correct answers:33.000000"} TODO: should 33%
+ * golangtest-cobra actions ranking example list {"1":["andrea","flavia"],"3":["antonio"]} Andrea and Flavia score only 1 point because they gave two wrong questions, antonio score 3/3 question
